@@ -1,0 +1,16 @@
+{
+  "name": "fooman/sameinvoiceordernumber-m2",
+  "license": "OSL-3.0",
+  "description": "Use the Magento order number as the related invoice, shipment and credit memo number.",
+  "type": "magento2-module",
+  "version": "1.0.3",
+  "autoload": {
+    "psr-4": {
+      "Fooman\\SameOrderInvoiceNumber\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
+
+

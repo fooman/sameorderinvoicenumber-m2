@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/etc/variations.xsd">
+    <testCase name="Fooman\SameOrderInvoiceNumber\Test\TestCase\CreditmemoTest" summary="Creditmemo Numbers"
+              ticketId="UC1-FOO">
+
+        <variation name="CreditmemoTestVariation1" ticketId="009">
+            <data name="description" xsi:type="string">Create order with one item, invoice and refund the order</data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+        <variation name="CreditmemoTestVariation2" ticketId="012">
+            <data name="description" xsi:type="string">Create order with one item, invoice and refund the order, use
+                prefix
+            </data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string">MEMO-</data>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+        <variation name="CreditmemoTestVariation3" ticketId="011">
+            <data name="description" xsi:type="string">Create two orders with one item, invoice and refund just the
+                second
+            </data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+        <variation name="CreditmemoTestVariation4" ticketId="010">
+            <data name="description" xsi:type="string">Create order with two items, invoice and refund them separately
+            </data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+        <variation name="CreditmemoTestVariation5">
+            <data name="description" xsi:type="string">Create two orders with two items, invoice and refund twice the
+                second order
+            </data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+        <variation name="CreditmemoTestVariation6">
+            <data name="description" xsi:type="string">Create two orders with two items, invoice and refund twice the
+                second order, use prefix
+            </data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="creditmemosPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string">MEMO-</data>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertCreditmemoNumbers"/>
+        </variation>
+
+    </testCase>
+</config>

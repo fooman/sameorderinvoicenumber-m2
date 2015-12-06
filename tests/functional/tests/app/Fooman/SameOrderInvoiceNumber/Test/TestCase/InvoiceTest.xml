@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/etc/variations.xsd">
+    <testCase name="Fooman\SameOrderInvoiceNumber\Test\TestCase\InvoiceTest" summary="Invoice Numbers"
+              ticketId="UC1-FOO">
+
+        <variation name="InvoiceTestVariation1" ticketId="001">
+            <data name="description" xsi:type="string">Create order with one item, invoice the order</data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+        <variation name="InvoiceTestVariation2" ticketId="004">
+            <data name="description" xsi:type="string">Create order with one item, invoice the order, use invoice
+                prefix
+            </data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string">INVC-</data>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+        <variation name="InvoiceTestVariation3" ticketId="003">
+            <data name="description" xsi:type="string">Create two orders with one item, invoice just the second</data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">1</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+        <variation name="InvoiceTestVariation4" ticketId="002">
+            <data name="description" xsi:type="string">Create order with two items, invoice them separately</data>
+            <data name="orderCount" xsi:type="string">1</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+        <variation name="InvoiceTestVariation5">
+            <data name="description" xsi:type="string">Create two orders with two items, invoice twice the second
+                order
+            </data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">0</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string"/>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+        <variation name="InvoiceTestVariation6">
+            <data name="description" xsi:type="string">Create two orders with two items, invoice twice the second order,
+                use prefix
+            </data>
+            <data name="orderCount" xsi:type="string">2</data>
+            <data name="invoicesPerOrderCount" xsi:type="string">2</data>
+            <data name="skipOrderCount" xsi:type="string">1</data>
+            <data name="prefix" xsi:type="string">INVC-</data>
+            <constraint name="Fooman\SameOrderInvoiceNumber\Test\Constraint\AssertInvoiceNumbers"/>
+        </variation>
+
+    </testCase>
+</config>
