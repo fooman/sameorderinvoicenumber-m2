@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author     Kristof Ringleff, Fooman
+ * @package    Fooman_SameOrderInvoiceNumber
+ * @copyright  Copyright (c) 2015 Fooman Limited (http://www.fooman.co.nz)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="sameorderinvoicenumber" translate="label" type="text" sortOrder="300" showInDefault="1"
+                 showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Order Numbers</label>
+            <tab>sales</tab>
+            <resource>Fooman_SameOrderInvoiceNumber::settings</resource>
+            <group id="settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Settings</label>
+                <field id="invoiceprefix" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Invoice Prefix</label>
+                </field>
+                <field id="shipmentprefix" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Shipment Prefix</label>
+                </field>
+                <field id="creditmemoprefix" translate="label" type="text" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Creditmemo Prefix</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
