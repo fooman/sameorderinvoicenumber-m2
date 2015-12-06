@@ -4,13 +4,12 @@ namespace Fooman\SameOrderInvoiceNumber\Observer;
 
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
-class CreditmemoObserverTest extends \PHPUnit_Framework_TestCase
+class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
 {
-
     const TEST_STORE_ID = 1;
-    const TEST_PREFIX = 'CRE-';
+    const TEST_PREFIX = 'SHIP-';
 
-    /** @var CreditmemoObserver */
+    /** @var ShipmentObserver */
     protected $object;
 
     /** @var ObjectManager */
@@ -24,75 +23,73 @@ class CreditmemoObserverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param     $orderIncrement
-     * @param int $existingCreditmemos
+     * @param int $existingShipments
      *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getCreditmemoCollectionMock($orderIncrement, $existingCreditmemos = 0)
+    protected function getShipmentCollectionMock($orderIncrement, $existingShipments = 0)
     {
-
-        $creditmemoCollectionMock = $this->getMock(
-            '\Magento\Sales\Model\ResourceModel\Order\Creditmemo\Collection',
+        $shipmentCollectionFactoryMock = $this->getMock(
+            '\Magento\Sales\Model\ResourceModel\Order\Shipment\Collection',
             ['getSize', 'getIterator'],
             [],
             '',
             false
         );
-        $creditmemoCollectionMock->expects($this->atLeastOnce())
+        $shipmentCollectionFactoryMock->expects($this->atLeastOnce())
             ->method('getSize')
-            ->will($this->returnValue($existingCreditmemos));
+            ->will($this->returnValue($existingShipments));
 
         $items = [];
 
-        switch ($existingCreditmemos) {
+        switch ($existingShipments) {
             case 2:
-                $creditMemoMock = $this->getMock(
-                    'Magento\Sales\Model\Order\Creditmemo',
+                $shipmentMock = $this->getMock(
+                    'Magento\Sales\Model\Order\Shipment',
                     ['getIncrementId'],
                     [],
                     '',
                     false
                 );
-                $creditMemoMock->expects($this->any())
+                $shipmentMock->expects($this->any())
                     ->method('getIncrementId')
                     ->willReturn($orderIncrement . '-1');
-                $items[1] = $creditMemoMock;
+                $items[1] = $shipmentMock;
             //no break intentionally
             case 1:
-                $creditMemoMock = $this->getMock(
-                    'Magento\Sales\Model\Order\Creditmemo',
+                $shipmentMock = $this->getMock(
+                    'Magento\Sales\Model\Order\Shipment',
                     ['getIncrementId'],
                     [],
                     '',
                     false
                 );
-                $creditMemoMock->expects($this->any())
+                $shipmentMock->expects($this->any())
                     ->method('getIncrementId')
                     ->willReturn($orderIncrement);
-                $items[0] = $creditMemoMock;
+                $items[0] = $shipmentMock;
                 break;
         }
 
-        $creditmemoCollectionMock->expects($this->any())
+        $shipmentCollectionFactoryMock->expects($this->any())
             ->method('getIterator')
             ->willReturn(new \ArrayIterator($items));
 
-        return $creditmemoCollectionMock;
-
+        return $shipmentCollectionFactoryMock;
     }
 
     /**
      * @param $orderIncrement
-     * @param $creditMemoCollectionMock
+     * @param $shipmentCollectionMock
      *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getCreditmemoMock($orderIncrement, $creditMemoCollectionMock)
+    protected function getShipmentMock($orderIncrement, $shipmentCollectionMock)
     {
         //Mock Order
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(['getIncrementId', 'getStoreId', 'getCreditmemosCollection'])
+            ->setMethods(['getIncrementId', 'getStoreId', 'getShipmentsCollection'])
             ->getMock();
 
         $orderMock->expects($this->any())
@@ -104,137 +101,136 @@ class CreditmemoObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(self::TEST_STORE_ID));
 
         $orderMock->expects($this->any())
-            ->method('getCreditmemosCollection')
-            ->will($this->returnValue($creditMemoCollectionMock));
+            ->method('getShipmentsCollection')
+            ->will($this->returnValue($shipmentCollectionMock));
 
-        //Mock Creditmemo
-        $creditmemoMock = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
+        //Mock Shipment
+        $shipmentMock = $this->getMockBuilder('Magento\Sales\Model\Order\Shipment')
             ->disableOriginalConstructor()
             ->setMethods(['getOrder', 'getId'])
             ->getMock();
 
-        $creditmemoMock->expects($this->any())
+        $shipmentMock->expects($this->any())
             ->method('getOrder')
             ->will($this->returnValue($orderMock));
 
-        $creditmemoMock->expects($this->any())
+        $shipmentMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(null));
 
-        return $creditmemoMock;
+        return $shipmentMock;
     }
 
     /**
-     * @dataProvider salesOrderCreditmemoSaveBeforeDataProvider
+     * @dataProvider salesOrderShipmentSaveBeforeDataProvider
+     *
      * @param $input
      * @param $expected
      */
-    public function testSalesOrderCreditmemoSaveBefore($input, $expected)
+    public function testSalesOrderShipmentSaveBefore($input, $expected)
     {
-
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver',
+            'Fooman\SameOrderInvoiceNumber\Observer\ShipmentObserver',
             [
                 'scopeConfig' => $this->getScopeConfigMock()
             ]
         );
 
-        $creditmemoMock = $this->getCreditmemoMock(
+        $shipmentMock = $this->getShipmentMock(
             $input['order_increment_id'],
-            $this->getCreditmemoCollectionMock($input['order_increment_id'], $input['existing_creditmemos'])
+            $this->getShipmentCollectionMock($input['order_increment_id'], $input['existing_shipments'])
         );
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getCreditmemo'], [], '', false);
+        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getShipment'], [], '', false);
         $observer->expects($this->once())
-            ->method('getCreditmemo')
-            ->will($this->returnValue($creditmemoMock));
+            ->method('getShipment')
+            ->will($this->returnValue($shipmentMock));
 
 
         //Execute Observer
         $this->object->execute($observer);
 
-        $this->assertEquals($expected, $creditmemoMock->getIncrementId());
+        $this->assertEquals($expected, $shipmentMock->getIncrementId());
     }
 
     /**
-     * @dataProvider salesOrderCreditmemoSaveBeforeDataProvider
+     * @dataProvider salesOrderShipmentSaveBeforeDataProvider
      *
      * @param $input
      * @param $expected
      */
-    public function testSalesOrderCreditmemoSaveBeforeWithPrefix($input, $expected)
+    public function testSalesOrderShipmentSaveBeforeWithPrefix($input, $expected)
     {
-
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver',
+            'Fooman\SameOrderInvoiceNumber\Observer\ShipmentObserver',
             [
                 'scopeConfig' => $this->getScopeConfigMock(true)
             ]
         );
 
-        $creditmemoMock = $this->getCreditmemoMock(
+        $shipmentMock = $this->getShipmentMock(
             $input['order_increment_id'],
-            $this->getCreditmemoCollectionMock(
+            $this->getShipmentCollectionMock(
                 self::TEST_PREFIX . $input['order_increment_id'],
-                $input['existing_creditmemos']
+                $input['existing_shipments']
             )
         );
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getCreditmemo'], [], '', false);
+        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getShipment'], [], '', false);
         $observer->expects($this->once())
-            ->method('getCreditmemo')
-            ->will($this->returnValue($creditmemoMock));
+            ->method('getShipment')
+            ->will($this->returnValue($shipmentMock));
 
 
         //Execute Observer
         $this->object->execute($observer);
 
-        $this->assertEquals(self::TEST_PREFIX . $expected, $creditmemoMock->getIncrementId());
+        $this->assertEquals(self::TEST_PREFIX . $expected, $shipmentMock->getIncrementId());
     }
 
 
     /**
      * @return array
      */
-    public function salesOrderCreditmemoSaveBeforeDataProvider()
+    public function salesOrderShipmentSaveBeforeDataProvider()
     {
         return [
             [
                 'input'          => [
-                    'order_increment_id'   => '100000015',
-                    'existing_creditmemos' => 0
+                    'order_increment_id' => '100000015',
+                    'existing_shipments' => 0
                 ],
                 'expectedResult' => '100000015',
             ],
             [
                 'input'          => [
-                    'order_increment_id'   => '200000001',
-                    'existing_creditmemos' => 0
+                    'order_increment_id' => '200000001',
+                    'existing_shipments' => 0
                 ],
                 'expectedResult' => '200000001',
             ],
             [
                 'input'          => [
-                    'order_increment_id'   => 'TEST--001',
-                    'existing_creditmemos' => 0
+                    'order_increment_id' => 'TEST--001',
+                    'existing_shipments' => 0
                 ],
                 'expectedResult' => 'TEST--001',
             ],
             [
                 'input'          => [
-                    'order_increment_id'   => '100000015',
-                    'existing_creditmemos' => 1
+                    'order_increment_id' => '100000015',
+                    'existing_shipments' => 1
                 ],
                 'expectedResult' => '100000015-1',
             ],
             [
                 'input'          => [
-                    'order_increment_id'   => '100000015',
-                    'existing_creditmemos' => 2
+                    'order_increment_id' => '100000015',
+                    'existing_shipments' => 2
                 ],
                 'expectedResult' => '100000015-2',
             ]
@@ -254,16 +250,14 @@ class CreditmemoObserverTest extends \PHPUnit_Framework_TestCase
             $scopeConfigMock->expects($this->any())
                 ->method('getValue')
                 ->with(
-                    'sameorderinvoicenumber/settings/creditmemoprefix',
+                    'sameorderinvoicenumber/settings/shipmentprefix',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     self::TEST_STORE_ID
                 )
                 ->will($this->returnValue(self::TEST_PREFIX));
-
         } else {
             $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         }
         return $scopeConfigMock;
-
     }
 }
