@@ -1,5 +1,5 @@
 {
-  "name": "fooman/sameinvoiceordernumber-m2",
+  "name": "fooman/sameorderinvoicenumber-m2",
   "license": "OSL-3.0",
   "description": "Use the Magento order number as the related invoice, shipment and credit memo number.",
   "type": "magento2-module",
