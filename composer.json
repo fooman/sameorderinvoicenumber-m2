@@ -12,15 +12,17 @@
   "repositories": [
     {
       "type": "composer",
-      "url": "https://repo.magento.com/"
+      "url": "https://packages.magento.com/"
     }
   ],
   "require-dev": {
-    "phpunit/phpunit": "~4.5",
-    "magento/community-edition": "2.0.*"
+    "magento/module-backend": "~100.0.2",
+    "magento/module-sales": "~100.0.2",
+    "phpunit/phpunit": "^4.5"
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "extra": {
+    "magento-root-dir": "./vendor/magento/community-edition"
+  }
 }
-
-
