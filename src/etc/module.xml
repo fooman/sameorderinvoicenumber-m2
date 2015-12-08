@@ -8,5 +8,10 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Fooman_SameOrderInvoiceNumber" setup_version="1.0.3"/>
+    <module name="Fooman_SameOrderInvoiceNumber" setup_version="1.0.3">
+        <sequence>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Sales"/>
+        </sequence>
+    </module>
 </config>
