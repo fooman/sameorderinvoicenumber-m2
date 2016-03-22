@@ -26,8 +26,5 @@
     "phpunit/phpunit": "^4.5"
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "extra": {
-    "magento-root-dir": "./vendor/magento/community-edition"
-  }
+  "prefer-stable": true
 }
