@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Changed
 - Move dependencies in right location in composer.json
+- Add integration tests
 
 ## [2.0.2] - 2016-02-10
 ### Fixes
