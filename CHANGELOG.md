@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [2.0.3] 2016-04-03
 ### Changed
 - Move dependencies in right location in composer.json
 - Add integration tests
