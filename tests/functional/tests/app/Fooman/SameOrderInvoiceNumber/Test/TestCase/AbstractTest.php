@@ -76,7 +76,11 @@ abstract class AbstractTest extends Injectable
             ]
         )->run();
 
-        return $invoiceIds['invoiceIds'];
+        if (isset($invoiceIds['ids']['invoiceIds'])) {
+            return $invoiceIds['ids']['invoiceIds'];
+        } else {
+            return $invoiceIds['invoiceIds'];
+        }
     }
 
     /**
@@ -95,7 +99,11 @@ abstract class AbstractTest extends Injectable
             ]
         )->run();
 
-        return $shipmentIds['shipmentIds'];
+        if (isset($shipmentIds['ids']['shipmentIds'])) {
+            return $shipmentIds['ids']['shipmentIds'];
+        } else {
+            return $shipmentIds['shipmentIds'];
+        }
     }
 
     /**
@@ -106,7 +114,7 @@ abstract class AbstractTest extends Injectable
      */
     protected function createCreditmemo(OrderInjectable $order, array $data = [])
     {
-        $shipmentIds = $this->objectManager->create(
+        $creditmemoIds = $this->objectManager->create(
             'Magento\Sales\Test\TestStep\CreateCreditMemoStep',
             [
                 'order' => $order,
@@ -114,7 +122,11 @@ abstract class AbstractTest extends Injectable
             ]
         )->run();
 
-        return $shipmentIds['creditMemoIds'];
+        if (isset($creditmemoIds['ids']['creditMemoIds'])) {
+            return $creditmemoIds['ids']['creditMemoIds'];
+        } else {
+            return $creditmemoIds['creditMemoIds'];
+        }
     }
 
     /**
