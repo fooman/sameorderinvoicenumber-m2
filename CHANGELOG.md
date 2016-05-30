@@ -1,8 +1,12 @@
 # Change Log
 
 ## [Unreleased]
+### Fixed
+- Update functional tests to work with 2.1.0-rc1
 
 ## [2.0.4] 2016-05-24
+### Fixed
+- Widen Dependency Definition to work with 2.1.0
 
 ## [2.0.3] 2016-04-03
 ### Changed
