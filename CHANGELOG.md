@@ -1,5 +1,7 @@
 # Change Log
 
+## [Unreleased]
+
 ## [2.0.5] 2016-05-30
 ### Fixed
 - Update functional tests to work with 2.1.0-rc1
