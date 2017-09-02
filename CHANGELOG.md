@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+### Added
+- Support for PHP 7.1
+- Support for Magento 2.2.0
 
 ## [2.0.5] 2016-05-30
 ### Fixed
