@@ -4,7 +4,7 @@ namespace Fooman\SameOrderInvoiceNumber\Observer;
 
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
-class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
+class ShipmentObserverTest extends \PHPUnit\Framework\TestCase
 {
     const TEST_STORE_ID = 1;
     const TEST_PREFIX = 'SHIP-';
@@ -25,16 +25,13 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
      * @param     $orderIncrement
      * @param int $existingShipments
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getShipmentCollectionMock($orderIncrement, $existingShipments = 0)
     {
-        $shipmentCollectionFactoryMock = $this->getMock(
+        $shipmentCollectionFactoryMock = $this->createPartialMock(
             '\Magento\Sales\Model\ResourceModel\Order\Shipment\Collection',
-            ['getSize', 'getIterator'],
-            [],
-            '',
-            false
+            ['getSize', 'getIterator']
         );
         $shipmentCollectionFactoryMock->expects($this->atLeastOnce())
             ->method('getSize')
@@ -44,12 +41,9 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
 
         switch ($existingShipments) {
             case 2:
-                $shipmentMock = $this->getMock(
+                $shipmentMock = $this->createPartialMock(
                     'Magento\Sales\Model\Order\Shipment',
-                    ['getIncrementId'],
-                    [],
-                    '',
-                    false
+                    ['getIncrementId']
                 );
                 $shipmentMock->expects($this->any())
                     ->method('getIncrementId')
@@ -57,12 +51,9 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
                 $items[1] = $shipmentMock;
             //no break intentionally
             case 1:
-                $shipmentMock = $this->getMock(
+                $shipmentMock = $this->createPartialMock(
                     'Magento\Sales\Model\Order\Shipment',
-                    ['getIncrementId'],
-                    [],
-                    '',
-                    false
+                    ['getIncrementId']
                 );
                 $shipmentMock->expects($this->any())
                     ->method('getIncrementId')
@@ -82,7 +73,7 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
      * @param $orderIncrement
      * @param $shipmentCollectionMock
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getShipmentMock($orderIncrement, $shipmentCollectionMock)
     {
@@ -143,7 +134,7 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getShipment'], [], '', false);
+        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getShipment']);
         $observer->expects($this->once())
             ->method('getShipment')
             ->will($this->returnValue($shipmentMock));
@@ -180,7 +171,7 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getShipment'], [], '', false);
+        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getShipment']);
         $observer->expects($this->once())
             ->method('getShipment')
             ->will($this->returnValue($shipmentMock));
@@ -245,7 +236,7 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
     protected function getScopeConfigMock($withPrefixes = false)
     {
         if ($withPrefixes) {
-            $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
             $scopeConfigMock->expects($this->any())
                 ->method('getValue')
@@ -256,7 +247,7 @@ class ShipmentObserverTest extends \PHPUnit_Framework_TestCase
                 )
                 ->will($this->returnValue(self::TEST_PREFIX));
         } else {
-            $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
         }
         return $scopeConfigMock;
     }

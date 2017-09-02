@@ -5,7 +5,7 @@ namespace Fooman\SameOrderInvoiceNumber\Observer;
 /**
  * @magentoAppArea      adminhtml
  */
-class InvoiceObserverTest extends \PHPUnit_Framework_TestCase
+class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $objectManager;

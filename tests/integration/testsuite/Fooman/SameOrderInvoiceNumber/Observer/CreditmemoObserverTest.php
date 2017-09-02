@@ -5,7 +5,7 @@ namespace Fooman\SameOrderInvoiceNumber\Observer;
 /**
  * @magentoAppArea      adminhtml
  */
-class CreditmemoObserverTest extends \PHPUnit_Framework_TestCase
+class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $objectManager;
