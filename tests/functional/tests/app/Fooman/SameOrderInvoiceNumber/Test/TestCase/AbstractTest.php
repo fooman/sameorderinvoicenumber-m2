@@ -69,7 +69,7 @@ abstract class AbstractTest extends Injectable
     protected function createInvoice(OrderInjectable $order, array $data = [])
     {
         $invoiceIds = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateInvoiceStep',
+            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateInvoiceStep',
             [
                 'order' => $order,
                 'data'  => $data,
@@ -115,7 +115,7 @@ abstract class AbstractTest extends Injectable
     protected function createCreditmemo(OrderInjectable $order, array $data = [])
     {
         $creditmemoIds = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateCreditMemoStep',
+            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateCreditMemoStep',
             [
                 'order' => $order,
                 'data'  => $data,
