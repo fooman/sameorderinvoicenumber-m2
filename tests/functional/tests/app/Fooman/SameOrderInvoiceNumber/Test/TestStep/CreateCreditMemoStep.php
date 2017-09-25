@@ -3,6 +3,11 @@
 namespace Fooman\SameOrderInvoiceNumber\Test\TestStep;
 
 use Magento\Mtf\Client\Locator;
+use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Page\Adminhtml\SalesOrderView;
 
 /**
  * Create credit memo from order on backend.
@@ -10,20 +15,38 @@ use Magento\Mtf\Client\Locator;
 class CreateCreditMemoStep extends \Magento\Sales\Test\TestStep\CreateCreditMemoStep
 {
 
+    /**
+     * @param Cart $cart
+     * @param OrderIndex $orderIndex
+     * @param SalesOrderView $salesOrderView
+     * @param OrderInjectable $order
+     * @param OrderCreditMemoNew $orderCreditMemoNew
+     * @param array $data
+     */
+    public function __construct(
+        Cart $cart,
+        OrderIndex $orderIndex,
+        SalesOrderView $salesOrderView,
+        OrderInjectable $order,
+        OrderCreditMemoNew $orderCreditMemoNew,
+        $data = null
+    ) {
+        $this->cart = $cart;
+        $this->orderIndex = $orderIndex;
+        $this->salesOrderView = $salesOrderView;
+        $this->order = $order;
+        $this->orderCreditMemoNew = $orderCreditMemoNew;
+        $this->data = $data;
+    }
+
     public function run()
     {
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
-        $refundsData = $this->order->getRefund() !== null ? $this->order->getRefund() : ['refundData' => []];
-        foreach ($refundsData as $refundData) {
-/*            $this->orderCreditMemoNew->getFormBlock()->waitForElementVisible(
-                '#creditmemo_item_container',
-                Locator::SELECTOR_CSS
-            );*/
-            $this->salesOrderView->getPageActions()->orderCreditMemo();
-            $this->orderCreditMemoNew->getFormBlock()->fillFormData($refundData);
-            $this->orderCreditMemoNew->getFormBlock()->submit();
-        }
+        $this->salesOrderView->getPageActions()->orderCreditMemo();
+        $this->orderCreditMemoNew->getFormBlock()->fillFormData($this->data);
+        $this->orderCreditMemoNew->getFormBlock()->submit();
+        
 
         return [
             'ids' => ['creditMemoIds' => $this->getCreditMemoIds()]
