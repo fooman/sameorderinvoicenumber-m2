@@ -44,6 +44,13 @@ class CreateCreditMemoStep extends \Magento\Sales\Test\TestStep\CreateCreditMemo
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->order->getId()]);
         $this->salesOrderView->getPageActions()->orderCreditMemo();
+
+        $items = $this->cart->getItems();
+        $this->orderCreditMemoNew->getFormBlock()->fillProductData($this->data, $items);
+        if ($this->compare($items, $this->data)) {
+            $this->orderCreditMemoNew->getFormBlock()->updateQty();
+        }
+
         $this->orderCreditMemoNew->getFormBlock()->fillFormData($this->data);
         $this->orderCreditMemoNew->getFormBlock()->submit();
         
