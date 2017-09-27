@@ -92,7 +92,7 @@ abstract class AbstractTest extends Injectable
     protected function createShipment(OrderInjectable $order, array $data = [])
     {
         $shipmentIds = $this->objectManager->create(
-            'Magento\Sales\Test\TestStep\CreateShipmentStep',
+            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateShipmentStep',
             [
                 'order' => $order,
                 'data'  => $data,
