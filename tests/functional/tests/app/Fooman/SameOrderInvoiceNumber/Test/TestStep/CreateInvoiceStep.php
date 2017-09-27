@@ -141,18 +141,14 @@ class CreateInvoiceStep implements TestStepInterface
         $this->salesOrderView->getPageActions()->invoice();
 
         if (!empty($this->data)) {
+            $this->orderInvoiceNew->getFormBlock()->fillFormData($this->data);
             $this->orderInvoiceNew->getFormBlock()->fillProductData(
                 $this->data,
                 $this->order->getEntityId()['products']
             );
             $this->orderInvoiceNew->getFormBlock()->updateQty();
-            $this->orderInvoiceNew->getFormBlock()->fillFormData($this->data);
-            if (isset($this->isInvoicePartial)) {
-                $this->orderInvoiceNew->getFormBlock()->submit();
-                $this->salesOrderView->getPageActions()->invoice();
-            }
         }
-        sleep(10);
+        sleep(20);
         $this->orderInvoiceNew->getFormBlock()->submit();
         $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
