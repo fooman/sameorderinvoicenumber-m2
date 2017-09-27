@@ -115,11 +115,8 @@ abstract class AbstractTest extends Injectable
     protected function createCreditmemo(OrderInjectable $order, array $data = [])
     {
         $cartData = [];
-        $cartData['data']['items']['products'] = isset($data['items_data'])
-            ? ['catalogProductSimple::product_10_dollar']
-            : $order->getEntityId()['products'];
+        $cartData['data']['items']['products'] = $order->getEntityId()['products'];
         $cart = $this->fixtureFactory->createByCode('cart', $cartData);
-
         $creditmemoIds = $this->objectManager->create(
             'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateCreditMemoStep',
             [
