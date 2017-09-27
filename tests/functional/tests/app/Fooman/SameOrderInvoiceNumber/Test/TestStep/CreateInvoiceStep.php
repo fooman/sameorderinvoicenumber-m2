@@ -2,6 +2,7 @@
 
 namespace Fooman\SameOrderInvoiceNumber\Test\TestStep;
 
+use Magento\Mtf\Client\Locator;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
