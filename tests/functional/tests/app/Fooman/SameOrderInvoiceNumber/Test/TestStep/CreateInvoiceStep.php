@@ -152,6 +152,7 @@ class CreateInvoiceStep implements TestStepInterface
                 $this->salesOrderView->getPageActions()->invoice();
             }
         }
+        sleep(10);
         $this->orderInvoiceNew->getFormBlock()->submit();
         $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
