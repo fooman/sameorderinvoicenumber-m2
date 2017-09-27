@@ -134,7 +134,11 @@ class CreateInvoiceStep implements TestStepInterface
         }
         $this->orderIndex->open();
         $this->orderIndex->getSalesOrderGrid()->searchAndOpen(['id' => $this->orderId]);
+        $this->salesOrderView->getOrderForm()->waitForElementVisible(
+            '#order_invoice', Locator::SELECTOR_CSS
+        );
         $this->salesOrderView->getPageActions()->invoice();
+
         if (!empty($this->data)) {
             $this->orderInvoiceNew->getFormBlock()->fillProductData(
                 $this->data,
@@ -148,7 +152,6 @@ class CreateInvoiceStep implements TestStepInterface
             }
         }
         $this->orderInvoiceNew->getFormBlock()->submit();
-        sleep(20);
         $invoiceIds = $this->getInvoiceIds();
         if (!empty($this->data)) {
             $shipmentIds = $this->getShipmentIds();
@@ -162,25 +165,23 @@ class CreateInvoiceStep implements TestStepInterface
         ];
     }
 
-    /**
-     * Get invoice ids.
-     *
-     * @return array
-     */
     protected function getInvoiceIds()
     {
-        $this->salesOrderView->getOrderForm()->openTab('invoices');
-        return $this->salesOrderView->getOrderForm()->getTab('invoices')->getGridBlock()->getIds();
+        $orderForm = $this->salesOrderView->getOrderForm();
+        $orderForm->waitForElementVisible('#sales_order_view_tabs_order_invoices', Locator::SELECTOR_CSS);
+        sleep(2);
+        $orderForm->openTab('invoices');
+        $orderForm->waitForElementVisible('#sales_order_view_tabs_order_invoices_content', Locator::SELECTOR_CSS);
+        return $orderForm->getTab('invoices')->getGridBlock()->getIds();
     }
 
-    /**
-     * Get shipment ids.
-     *
-     * @return array
-     */
     protected function getShipmentIds()
     {
-        $this->salesOrderView->getOrderForm()->openTab('shipments');
-        return $this->salesOrderView->getOrderForm()->getTab('shipments')->getGridBlock()->getIds();
+        $orderForm = $this->salesOrderView->getOrderForm();
+        $orderForm->waitForElementVisible('#sales_order_view_tabs_order_shipments', Locator::SELECTOR_CSS);
+        sleep(2);
+        $orderForm->openTab('shipments');
+        $orderForm->waitForElementVisible('#sales_order_view_tabs_order_shipments_content', Locator::SELECTOR_CSS);
+        return $orderForm->getTab('shipments')->getGridBlock()->getIds();
     }
 }
