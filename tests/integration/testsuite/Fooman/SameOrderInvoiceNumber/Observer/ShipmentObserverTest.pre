@@ -42,17 +42,17 @@ class ShipmentObserverTest extends \PHPUnit\Framework\TestCase
     protected function shipOrder()
     {
         /** @var \Magento\Sales\Api\Data\OrderInterface $order */
-        $order = $this->objectManager->create('\Magento\Sales\Api\Data\OrderInterface')
+        $order = $this->objectManager->create(\Magento\Sales\Api\Data\OrderInterface::class)
             ->load('100000001', 'increment_id');
 
         /** @var \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory */
-        $shipmentFactory = $this->objectManager->get('\Magento\Sales\Model\Order\ShipmentFactory');
+        $shipmentFactory = $this->objectManager->get(\Magento\Sales\Model\Order\ShipmentFactory::class);
 
         /** @var \Magento\Sales\Api\Data\ShipmentInterface $shipment */
         $shipment = $shipmentFactory->create($order);
 
         /** @var \Magento\Sales\Api\ShipmentRepositoryInterface $shipmentRepository */
-        $shipmentRepository = $this->objectManager->get('\Magento\Sales\Api\ShipmentRepositoryInterface');
+        $shipmentRepository = $this->objectManager->get(\Magento\Sales\Api\ShipmentRepositoryInterface::class);
         $shipmentRepository->save($shipment);
         return $shipment;
     }
