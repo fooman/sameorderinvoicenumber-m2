@@ -69,7 +69,7 @@ abstract class AbstractTest extends Injectable
     protected function createInvoice(OrderInjectable $order, array $data = [])
     {
         $invoiceIds = $this->objectManager->create(
-            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateInvoiceStep',
+            \Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateInvoiceStep::class,
             [
                 'order' => $order,
                 'data'  => $data,
@@ -92,7 +92,7 @@ abstract class AbstractTest extends Injectable
     protected function createShipment(OrderInjectable $order, array $data = [])
     {
         $shipmentIds = $this->objectManager->create(
-            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateShipmentStep',
+            \Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateShipmentStep::class,
             [
                 'order' => $order,
                 'data'  => $data,
@@ -118,7 +118,7 @@ abstract class AbstractTest extends Injectable
         $cartData['data']['items']['products'] = $order->getEntityId()['products'];
         $cart = $this->fixtureFactory->createByCode('cart', $cartData);
         $creditmemoIds = $this->objectManager->create(
-            'Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateCreditMemoStep',
+            \Fooman\SameOrderInvoiceNumber\Test\TestStep\CreateCreditMemoStep::class,
             [
                 'order' => $order,
                 'data'  => $data,

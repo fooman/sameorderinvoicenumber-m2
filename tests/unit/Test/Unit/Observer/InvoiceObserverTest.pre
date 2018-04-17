@@ -30,7 +30,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
     protected function getInvoiceCollectionMock($orderIncrement, $existingInvoices = 0)
     {
         $invoiceCollectionMock = $this->createPartialMock(
-            '\Magento\Sales\Model\ResourceModel\Order\Invoice\Collection',
+            \Magento\Sales\Model\ResourceModel\Order\Invoice\Collection::class,
             ['getSize', 'getIterator']
         );
         $invoiceCollectionMock->expects($this->atLeastOnce())
@@ -42,7 +42,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
         switch ($existingInvoices) {
             case 2:
                 $invoiceMock = $this->createPartialMock(
-                    'Magento\Sales\Model\Order\Invoice',
+                    \Magento\Sales\Model\Order\Invoice::class,
                     ['getIncrementId']
                 );
                 $invoiceMock->expects($this->any())
@@ -52,7 +52,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
             //no break intentionally
             case 1:
                 $invoiceMock = $this->createPartialMock(
-                    'Magento\Sales\Model\Order\Invoice',
+                    \Magento\Sales\Model\Order\Invoice::class,
                     ['getIncrementId']
                 );
                 $invoiceMock->expects($this->any())
@@ -78,7 +78,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
     protected function getInvoiceMock($orderIncrement, $invoiceMemoCollectionMock)
     {
         //Mock Order
-        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+        $orderMock = $this->getMockBuilder(\Magento\Sales\Model\Order::class)
             ->disableOriginalConstructor()
             ->setMethods(['getIncrementId', 'getStoreId', 'getInvoiceCollection'])
             ->getMock();
@@ -97,7 +97,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
 
 
         //Mock Invoice
-        $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
+        $invoiceMock = $this->getMockBuilder(\Magento\Sales\Model\Order\Invoice::class)
             ->disableOriginalConstructor()
             ->setMethods(['getOrder', 'getId'])
             ->getMock();
@@ -122,7 +122,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
     public function testSalesOrderInvoiceSaveBefore($input, $expected)
     {
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\InvoiceObserver',
+            \Fooman\SameOrderInvoiceNumber\Observer\InvoiceObserver::class,
             [
                 'scopeConfig' => $this->getScopeConfigMock()
             ]
@@ -135,7 +135,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getInvoice']);
+        $observer = $this->createPartialMock(\Magento\Framework\Event\Observer::class, ['getInvoice']);
         $observer->expects($this->once())
             ->method('getInvoice')
             ->will($this->returnValue($invoiceMock));
@@ -156,7 +156,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
     public function testSalesOrderInvoiceSaveBeforeWithPrefix($input, $expected)
     {
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\InvoiceObserver',
+            \Fooman\SameOrderInvoiceNumber\Observer\InvoiceObserver::class,
             [
                 'scopeConfig' => $this->getScopeConfigMock(true)
             ]
@@ -171,7 +171,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
         );
 
         //Mock Observer
-        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getInvoice']);
+        $observer = $this->createPartialMock(\Magento\Framework\Event\Observer::class, ['getInvoice']);
         $observer->expects($this->once())
             ->method('getInvoice')
             ->will($this->returnValue($invoiceMock));
@@ -236,7 +236,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
     protected function getScopeConfigMock($withPrefixes = false)
     {
         if ($withPrefixes) {
-            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock(\Magento\Framework\App\Config\ScopeConfigInterface::class);
 
             $scopeConfigMock->expects($this->any())
                 ->method('getValue')
@@ -247,7 +247,7 @@ class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
                 )
                 ->will($this->returnValue(self::TEST_PREFIX));
         } else {
-            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock(\Magento\Framework\App\Config\ScopeConfigInterface::class);
         }
         return $scopeConfigMock;
     }

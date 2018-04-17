@@ -30,7 +30,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
     protected function getCreditmemoCollectionMock($orderIncrement, $existingCreditmemos = 0)
     {
         $creditmemoCollectionMock = $this->createPartialMock(
-            '\Magento\Sales\Model\ResourceModel\Order\Creditmemo\Collection',
+            \Magento\Sales\Model\ResourceModel\Order\Creditmemo\Collection::class,
             ['getSize', 'getIterator']
         );
         $creditmemoCollectionMock->expects($this->atLeastOnce())
@@ -42,7 +42,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
         switch ($existingCreditmemos) {
             case 2:
                 $creditMemoMock = $this->createPartialMock(
-                    'Magento\Sales\Model\Order\Creditmemo',
+                    \Magento\Sales\Model\Order\Creditmemo::class,
                     ['getIncrementId']
                 );
                 $creditMemoMock->expects($this->any())
@@ -52,7 +52,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
             //no break intentionally
             case 1:
                 $creditMemoMock = $this->createPartialMock(
-                    'Magento\Sales\Model\Order\Creditmemo',
+                    \Magento\Sales\Model\Order\Creditmemo::class,
                     ['getIncrementId']
                 );
                 $creditMemoMock->expects($this->any())
@@ -78,7 +78,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
     protected function getCreditmemoMock($orderIncrement, $creditMemoCollectionMock)
     {
         //Mock Order
-        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+        $orderMock = $this->getMockBuilder(\Magento\Sales\Model\Order::class)
             ->disableOriginalConstructor()
             ->setMethods(['getIncrementId', 'getStoreId', 'getCreditmemosCollection'])
             ->getMock();
@@ -96,7 +96,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue($creditMemoCollectionMock));
 
         //Mock Creditmemo
-        $creditmemoMock = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
+        $creditmemoMock = $this->getMockBuilder(\Magento\Sales\Model\Order\Creditmemo::class)
             ->disableOriginalConstructor()
             ->setMethods(['getOrder', 'getId'])
             ->getMock();
@@ -120,7 +120,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
     public function testSalesOrderCreditmemoSaveBefore($input, $expected)
     {
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver',
+            \Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver::class,
             [
                 'scopeConfig' => $this->getScopeConfigMock()
             ]
@@ -133,7 +133,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getCreditmemo']);
+        $observer = $this->createPartialMock(\Magento\Framework\Event\Observer::class, ['getCreditmemo']);
         $observer->expects($this->once())
             ->method('getCreditmemo')
             ->will($this->returnValue($creditmemoMock));
@@ -154,7 +154,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
     public function testSalesOrderCreditmemoSaveBeforeWithPrefix($input, $expected)
     {
         $this->object = $this->objectManager->getObject(
-            'Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver',
+            \Fooman\SameOrderInvoiceNumber\Observer\CreditmemoObserver::class,
             [
                 'scopeConfig' => $this->getScopeConfigMock(true)
             ]
@@ -170,7 +170,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
 
         //Mock Observer
         /** @var \Magento\Framework\Event\Observer $observer */
-        $observer = $this->createPartialMock('Magento\Framework\Event\Observer', ['getCreditmemo']);
+        $observer = $this->createPartialMock(\Magento\Framework\Event\Observer::class, ['getCreditmemo']);
         $observer->expects($this->once())
             ->method('getCreditmemo')
             ->will($this->returnValue($creditmemoMock));
@@ -235,7 +235,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
     protected function getScopeConfigMock($withPrefixes = false)
     {
         if ($withPrefixes) {
-            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock(\Magento\Framework\App\Config\ScopeConfigInterface::class);
 
             $scopeConfigMock->expects($this->any())
                 ->method('getValue')
@@ -246,7 +246,7 @@ class CreditmemoObserverTest extends \PHPUnit\Framework\TestCase
                 )
                 ->will($this->returnValue(self::TEST_PREFIX));
         } else {
-            $scopeConfigMock = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
+            $scopeConfigMock = $this->createMock(\Magento\Framework\App\Config\ScopeConfigInterface::class);
         }
         return $scopeConfigMock;
     }
