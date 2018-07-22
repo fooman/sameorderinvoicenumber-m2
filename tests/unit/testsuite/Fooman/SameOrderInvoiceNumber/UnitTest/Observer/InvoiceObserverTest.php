@@ -4,7 +4,7 @@ namespace Fooman\SameOrderInvoiceNumber\Observer;
 
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
-class InvoiceObserverTest extends \PHPUnit\Framework\TestCase
+class InvoiceObserverTest extends \Fooman\PhpunitBridge\BaseUnitTestCase
 {
     const TEST_STORE_ID = 1;
     const TEST_PREFIX = 'INV-';
