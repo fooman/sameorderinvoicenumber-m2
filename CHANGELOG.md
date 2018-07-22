@@ -1,6 +1,10 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Reorganised unit tests
+### Fixed
+- Shipment Integration test for Magento 2.2.5
 
 ## [2.1.0] 2017-09-27
 ### Added
