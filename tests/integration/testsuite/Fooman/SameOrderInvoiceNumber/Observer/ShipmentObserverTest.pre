@@ -48,8 +48,16 @@ class ShipmentObserverTest extends \PHPUnit\Framework\TestCase
         /** @var \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory */
         $shipmentFactory = $this->objectManager->get(\Magento\Sales\Model\Order\ShipmentFactory::class);
 
+        //We want to ship all available items
+        $itemsToShip = [];
+        foreach ($order->getAllItems() as $orderItem) {
+            if ($orderItem->getQtyToShip() > 0) {
+                $itemsToShip[$orderItem->getItemId()] = $orderItem->getQtyToShip();
+            }
+        }
+
         /** @var \Magento\Sales\Api\Data\ShipmentInterface $shipment */
-        $shipment = $shipmentFactory->create($order);
+        $shipment = $shipmentFactory->create($order, $itemsToShip);
 
         /** @var \Magento\Sales\Api\ShipmentRepositoryInterface $shipmentRepository */
         $shipmentRepository = $this->objectManager->get(\Magento\Sales\Api\ShipmentRepositoryInterface::class);
