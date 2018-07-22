@@ -9,19 +9,17 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreditMemoNew;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\SalesOrderView;
 
-/**
- * Create credit memo from order on backend.
- */
 class CreateCreditMemoStep extends \Magento\Sales\Test\TestStep\CreateCreditMemoStep
 {
+    protected $cart;
 
     /**
-     * @param Cart $cart
-     * @param OrderIndex $orderIndex
-     * @param SalesOrderView $salesOrderView
-     * @param OrderInjectable $order
+     * @param Cart               $cart
+     * @param OrderIndex         $orderIndex
+     * @param SalesOrderView     $salesOrderView
+     * @param OrderInjectable    $order
      * @param OrderCreditMemoNew $orderCreditMemoNew
-     * @param array $data
+     * @param array              $data
      */
     public function __construct(
         Cart $cart,
@@ -46,23 +44,41 @@ class CreateCreditMemoStep extends \Magento\Sales\Test\TestStep\CreateCreditMemo
         $this->salesOrderView->getOrderForm()->waitForElementVisible(
             '#order_creditmemo', Locator::SELECTOR_CSS
         );
+        sleep(5);
         $this->salesOrderView->getPageActions()->orderCreditMemo();
 
-        $items = $this->cart->getItems();
-        $this->orderCreditMemoNew->getFormBlock()->fillProductData($this->data, $items);
-        if ($this->compare($items, $this->data)) {
+        $this->salesOrderView->getOrderForm()->waitForElementVisible(
+            '#edit_form', Locator::SELECTOR_CSS
+        );
+
+        if (is_callable([$this, 'compare'])) {
+            $items = $this->cart->getItems();
+            $this->orderCreditMemoNew->getFormBlock()->fillProductData($this->data, $items);
+            if ($this->compare($items, $this->data)) {
+                $this->orderCreditMemoNew->getFormBlock()->updateQty();
+            }
+            $this->orderCreditMemoNew->getFormBlock()->fillFormData($this->data);
+        } elseif (!empty($this->data)) {
+            $this->orderCreditMemoNew->getFormBlock()->fillProductData(
+                $this->data,
+                $this->order->getEntityId()['products']
+            );
             $this->orderCreditMemoNew->getFormBlock()->updateQty();
+            $this->orderCreditMemoNew->getFormBlock()->fillFormData($this->data);
         }
 
-        $this->orderCreditMemoNew->getFormBlock()->fillFormData($this->data);
         $this->orderCreditMemoNew->getFormBlock()->submit();
-        
 
         return [
             'ids' => ['creditMemoIds' => $this->getCreditMemoIds()]
         ];
     }
 
+    /**
+     * Get credit memo ids.
+     *
+     * @return array
+     */
     protected function getCreditMemoIds()
     {
         $orderForm = $this->salesOrderView->getOrderForm();
