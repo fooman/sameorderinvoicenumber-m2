@@ -35,7 +35,7 @@ class AssertShipmentNumbers extends AbstractConstraint
 
                 $grid->search($filter);
 
-                \PHPUnit_Framework_Assert::assertTrue(
+                \PHPUnit\Framework\Assert::assertTrue(
                     $grid->isRowVisible($filter, false, true),
                     'Shipment is absent on shipments grid.'
                 );

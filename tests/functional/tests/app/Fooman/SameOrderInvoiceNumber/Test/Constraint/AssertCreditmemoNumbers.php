@@ -35,7 +35,7 @@ class AssertCreditmemoNumbers extends AbstractConstraint
 
                 $grid->search($filter);
 
-                \PHPUnit_Framework_Assert::assertTrue(
+                \PHPUnit\Framework\Assert::assertTrue(
                     $grid->isRowVisible($filter, false, true),
                     'Creditmemo is absent on creditmemos grid.'
                 );

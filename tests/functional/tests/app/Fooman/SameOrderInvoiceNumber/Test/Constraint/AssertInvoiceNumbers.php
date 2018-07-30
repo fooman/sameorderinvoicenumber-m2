@@ -35,7 +35,7 @@ class AssertInvoiceNumbers extends AbstractConstraint
 
                 $grid->search($filter);
 
-                \PHPUnit_Framework_Assert::assertTrue(
+                \PHPUnit\Framework\Assert::assertTrue(
                     $grid->isRowVisible($filter, false, true),
                     'Invoice is absent on invoices grid.'
                 );
