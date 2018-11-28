@@ -1,6 +1,11 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Package changed into a Metapackage - Implementation moved into fooman/sameorderinvoicenumber-implementation-m2 package
+- Semantic versioning will only be applied to the implementation package
+### Added
+- Support for Magento 2.3
 
 ## [2.1.1] 2018-07-22
 ### Changed
