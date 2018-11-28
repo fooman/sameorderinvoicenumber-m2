@@ -1,5 +1,7 @@
 # Change Log
 
+## [Unreleased]
+
 ## [3.0.0] 2018-11-28
 ### Changed
 - Package changed into a Metapackage - Implementation moved into fooman/sameorderinvoicenumber-implementation-m2 package
