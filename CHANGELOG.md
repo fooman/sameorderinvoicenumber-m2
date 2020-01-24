@@ -1,6 +1,10 @@
 # Change Log
 
 ## [Unreleased]
+### Added
+- Support for Magento 2.2.11 and 2.3.4
+### Fixed
+- Acceptance tests for 2.2.11
 
 ## [3.0.3] - 2019-10-05
 ### Added
