@@ -1,5 +1,7 @@
 # Change Log
 
+## [Unreleased]
+
 ## [3.0.12] - 2022-04-29
 ### Fixed
 - Handle collisions when pre-existing increment numbers are higher than order numbers - thanks @fredden
