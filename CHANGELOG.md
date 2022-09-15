@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Fixed
+- Avoid collection side effects
 
 ## [3.0.13] - 2022-08-05
 ### Added
