@@ -1,0 +1,10 @@
+name: M2 - Extension
+on:
+  push:
+  repository_dispatch:
+    types: [trigger-workflow]
+  
+jobs:
+  magento2-extension:
+    uses: fooman/fm0153_workflows/.github/workflows/fooman-m2.yml@main
+    secrets: inherit
