@@ -6,7 +6,7 @@
     "require": {
         "php": "~8.1.0||~8.2.0||~8.3.0||~8.4.0||~8.5.0",
         "fooman/sameorderinvoicenumber-implementation-m2": "104.5.0",
-        "magento/framework": "^103.0.4-p13 < 103.0.10"
+        "magento/framework": ">=103.0.4-p13 < 103.0.10"
     },
     "type": "metapackage"
 }
