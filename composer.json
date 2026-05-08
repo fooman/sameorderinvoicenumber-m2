@@ -8,5 +8,7 @@
         "fooman/sameorderinvoicenumber-implementation-m2": "104.5.0",
         "magento/framework": ">=103.0.4-p13 < 103.0.10"
     },
-    "type": "metapackage"
+    "type": "metapackage",
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
